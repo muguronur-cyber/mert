@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ders Müfredatı</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .box {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            background-color: #512da8;
+            margin: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border-radius: 10px;
+            animation: rotateIn 1s ease forwards, shadow-pulse 2s infinite;
+            box-shadow: 0 0 0 rgba(255, 152, 0, 0.5);
+        }
+
+        @keyframes shadow-pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(253, 0, 0, 0.116); 
+            }
+            50% {
+                box-shadow: 0 0 0 3px rgba(245, 110, 0, 0.623); 
+            }
+            100% {
+                box-shadow: 0 0 50px 5px rgba(253, 0, 0, 0.199); 
+            }
+        }
+
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        
+
+        @keyframes rotateIn {
+            from {
+                transform: scale(0) rotate(0deg);
+            }
+            to {
+                transform: scale(1) rotate(360deg);
+            }
+        }
+
+        .box:hover {
+            background-color: blueviolet;
+        }
+
+        .box span {
+            color: black;
+            font-weight: bold;
+
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #333;
+            padding: 20px;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            width: 80%;
+            max-width: 400px;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+
+        .popup h2 {
+            margin-top: 0;
+            color: orange;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .popup ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .popup ul li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .popup ul li::before {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            border-radius: 50%;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .popup button {
+            padding: 8px 16px;
+            background-color: orangered; 
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            float: right;
+        }
+
+        .popup button:hover {
+            background-color: rgb(143, 40, 3);
+        }
+
+        .close {
+            color: white;
+            float: right;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #bbb;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 0;
+            text-align: center;
+            z-index: 999;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(to right,
+                #ff0000, #ff4000, #ff8000, #ffbf00, #ffff00,
+                #bfff00, #80ff00, #40ff00, #00ff00, #00ff40,
+                #00ff80, #00ffbf, #00ffff, #00bfff, #0080ff,
+                #0040ff, #0000ff, #4000ff, #8000ff, #bf00ff,
+                #ff00ff, #ff00bf, #ff0080, #ff0040, #ff0000,
+                #ff4000, #ff8000, #ffbf00, #ffff00, #bfff00,
+                #80ff00, #40ff00, #00ff00, #00ff40, #00ff80,
+                #00ffbf, #00ffff, #00bfff, #0080ff, #0040ff,
+                #0000ff, #4000ff, #8000ff, #bf00ff, #ff00ff,
+                #ff00bf, #ff0080, #ff0040, #ff0000);
+            background-size: 200% auto;
+            animation: gradient 10s linear infinite;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-around;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            transition: background-color 0.3s, color 0.3s, transform 0.2s, box-shadow 0.3s;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .navigation a:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: width 0.3s, height 0.3s, top 0.3s, left 0.3s;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+        }
+
+        .rainbow-background {
+            background: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red);
+            background-size: 200% auto;
+            color: white;
+            border: none;
+            transition: background-position 0.5s, color 0.5s;
+        }
+
+        .rainbow-background:hover {
+            background-position: right center;
+            color: black;
+        }
+
+        .slideshow-container {
+        max-width: 300px;
+        position: absolute; 
+        bottom: 5%; 
+        left: 56%; 
+        transform: translateX(-50%); 
+        margin: auto; 
+        }
+        .mySlides {
+            display: none;
+        }
+        .fade {
+            animation: fade 2.5s;
+        }
+        @keyframes fade {
+            from {opacity: .2} 
+            to {opacity: 1}
+        }
+
+        .navigation a:hover:before {
+            width: 0;
+            height: 0;
+            top: 50%;
+            left: 50%;
+        }
+
+        .navigation a:hover {
+            background-color: #1565c0;
+            color: #ffd600;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .download-button {
+            padding: 20px 40px;
+            background-color: #ff5405a2;
+            color: rgba(255, 255, 255, 0.767);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 100px;
+            font-size: 18px;
+        }
+
+        .download-button:hover {
+            background-color: #ff5405;
+            color: white
+        }
+
+        
+
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navigation">
+            <a href="index.html">Anasayfa</a>
+            <a href="siniflistesi.html">Sınıf Listesi</a>
+            <a href="dersmufredati.html">Ders Müfredatı</a>
+            <a href="blogs.html">Blogs</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="box" id="temel-linux">
+            <span>Temel Linux</span>
+        </div>
+        <div class="box" id="bash-scripting">
+            <span>BASH Scripting</span>
+        </div>
+        <div class="box" id="docker-kubernetes">
+            <span>Docker Kubernetes</span>
+        </div>
+        <div class="box" id="cloud-devops">
+            <span>Cloud DevOps</span>
+        </div>
+    </div>
+
+    <div class="popup" id="temel-linux-popup">
+        <span class="close" onclick="closePopup('temel-linux-popup')">&times;</span>
+        <h2>Temel Linux</h2>
+        <ul>
+            <li>Linux History and Distributions</li>
+            <li>Basic Commands and Shell Access</li>
+            <li>Standard I/O and Pipes</li>
+            <li>vi/vim Text Editor</li>
+            <li>Permissions on Linux</li>
+            <li>Archiving files and OpenSSH</li>
+            <li>Installation of Linux Operating System</li>
+            <li>Linux File System Structure</li>
+            <li>Service Management</li>
+            <li>Account Management</li>
+            <li>Software Management</li>
+            <li>Network Management</li>
+            <li>SELinux</li>
+            <li>Logical Volume Management (LVM)</li>
+            <li>Filesystems</li>
+            <li>ISCSI</li>
+            <li>NFS Client</li>
+            <li>Samba Client</li>
+            <li>Firewall</li>
+            <li>Process Management</li>
+            <li>Temel Kavramların Gözden Geçirilmesi</li>
+        </ul>
+        <button onclick="closePopup('temel-linux-popup')">Kapat</button>
+    </div>
+
+    <div class="popup" id="bash-scripting-popup">
+        <span class="close" onclick="closePopup('bash-scripting-popup')">&times;</span>
+        <h2>BASH Scripting</h2>
+        <ul>
+            <li>UNIX'in tarihi ve evrimi</li>
+            <li>Dosya sistemi, montaj cihazları ve düğümler</li>
+            <li>Süreçler, iş parçacıkları, planlama ve sinyaller</li>
+            <li>Temel UNIX komutlarını kullanma</li>
+            <li>Farklı UNIX kabuklarının karşılaştırılması</li>
+            <li>İş için doğru kabuğu seçmek</li>
+            <li>Kabuk Programlamayı Başlatma</li>
+            <li>Kabuk komut dosyaları neden önemli bir araçtır?</li>
+            <li>Bir tercüman seçmek için shebang hattını kullanmak</li>
+            <li>Kabuk değişkenlerini bildirme ve bunlarla çalışma</li>
+            <li>Test ve aritmetik için yerleşik operatörler</li>
+            <li>İfade komutunu kullanarak ifadeleri değerlendirme</li>
+            <li>Değişkenleri if ve case ile test etme</li>
+            <li>For, while ve Until döngüleri oluşturma ve kontrol etme</li>
+            <li>Kabuk komut dosyalarınızda hata ayıklama</li>
+            <li>Düzenli ifadeler</li>
+            <li>Normal İfade Motoru nasıl çalışır?</li>
+            <li>Temel ve genişletilmiş düzenli ifadeler arasındaki fark</li>
+            <li>Kabuk komut dosyalarında normal ifadeleri kullanma seçenekleri</li>
+
+        </ul>
+        <button onclick="closePopup('bash-scripting-popup')">Kapat</button>
+    </div>
+
+    <div class="popup" id="docker-kubernetes-popup">
+        <span class="close" onclick="closePopup('docker-kubernetes-popup')">&times;</span>
+        <h2>Docker Kubernetes</h2>
+        <ul>
+            <li>Kubernetes’e Giriş</li>
+            <li>Kubernetes Mimarisi</li>
+            <li>Kubernetes Kurulumu</li>
+            <li>Kubernetes CLI</li>
+            <li>Konteyner Çalışma Zamanı</li>
+            <li>Kubernetes İş Yükleri</li>
+            <li>POD</li>
+            <li>Kontrol Yaşam Döngüsü</li>
+            <li>ReplicaSet</li>
+            <li>Deployment</li>
+            <li>StatefulSet</li>
+            <li>DaemonSet</li>
+            <li>Job</li>
+            <li>CronJob</li>
+            <li>Ağ Trafiği</li>
+            <li>Servisler</li>
+            <li>ClusterIP</li>
+            <li>NodePort</li>
+            <li>Load Balancer</li>
+            <li>External Name</li>
+            <li>Headless</li>
+            <li>EndPoint</li>
+            <li>Servis Proxy</li>
+
+        </ul>
+        <button onclick="closePopup('docker-kubernetes-popup')">Kapat</button>
+    </div>
+
+    <div class="popup" id="cloud-devops-popup">
+        <span class="close" onclick="closePopup('cloud-devops-popup')">&times;</span>
+        <h2>Cloud DevOps</h2>
+        <ul>
+            <li>Introduction Azure DevOps</li>
+            <li>Azure Repos</li>
+            <li>Azure Pipelines</li>
+            <li>Azure Artifacts</li>
+            <li>Azure Test Plans</li>
+            <li>Source Control Management (SCM)</li>
+            <li>Version controlling mechanism using Azure Repos</li>
+            <li>Branching & merging strategy</li>
+            <li>Various branching & merging strategies and their scenarios</li>
+            <li>Best Practices</li>
+            <li>Continuous Integration (CI)</li>
+            <li>Continuous Integration using Azure Pipelines</li>
+            <li>Pipeline creation</li>
+            <li>Environments</li>
+            <li>Tasks</li>
+            <li>Workflows</li>
+            <li>Best Practices</li>
+            <li>Continuous Deployment (CD)</li>
+            <li>Deployment Pipelines using Azure Pipelines</li>
+            <li>Automated workflows for Deployments</li>
+            <li>Integration with Artifact management</li>
+
+        </ul>
+        <button onclick="closePopup('cloud-devops-popup')">Kapat</button>
+    </div>
+
+    <div class="slideshow-container">
+
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/png-shadow-512/AWS.png" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/svg/Azure.svg" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/svg/Google-Cloud.svg" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/svg/Jenkins.svg" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/svg/Docker.svg" style="width:45%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/svg/Kubernetes.svg" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/svg/HashiCorp-Terraform.svg" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/png-shadow-512/Ansible.png" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/svg/Git.svg" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/svg/GitLab.svg" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/png-shadow-512/GitHub.png" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/svg/MongoDB.svg" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/png-shadow-512/Powershell.png" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/png-shadow-512/Bash.png" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/png-shadow-512/Linux.png" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/svg/Windows-11.svg" style="width:35%">
+        </div>
+        
+    </div>
+</div>
+
+    <button class="download-button rainbow-background" onclick="downloadContent('ders_mufredati.txt')">Ders Müfredatını İndir</button>
+
+    <script>
+        function openPopup(id) {
+            var popup = document.getElementById(id);
+            popup.style.display = "block";
+        }
+
+        function closePopup(id) {
+            var popup = document.getElementById(id);
+            popup.style.display = "none";
+        }
+
+        document.getElementById("temel-linux").addEventListener("click", function() {
+            openPopup("temel-linux-popup");
+            closeOtherPopups("temel-linux-popup");
+        });
+
+        document.getElementById("bash-scripting").addEventListener("click", function() {
+            openPopup("bash-scripting-popup");
+            closeOtherPopups("bash-scripting-popup");
+        });
+
+        document.getElementById("docker-kubernetes").addEventListener("click", function() {
+            openPopup("docker-kubernetes-popup");
+            closeOtherPopups("docker-kubernetes-popup");
+        });
+
+        document.getElementById("cloud-devops").addEventListener("click", function() {
+            openPopup("cloud-devops-popup");
+            closeOtherPopups("cloud-devops-popup");
+        });
+
+        function closeOtherPopups(currentPopupId) {
+            var popups = document.querySelectorAll(".popup");
+            popups.forEach(function(popup) {
+                if (popup.id !== currentPopupId) {
+                    popup.style.display = "none";
+                }
+            });
+        }
+
+        function downloadContent(filename) {
+            var content = `Temel Linux
+                - Linux History and Distributions
+                - Basic Commands and Shell Access
+                - Standard I/O and Pipes
+                - vi/vim Text Editor
+                - Permissions on Linux
+                - Archiving files and OpenSSH
+                - Installation of Linux Operating System
+                - Linux File System Structure
+                - Service Management
+                - Account Management
+                - Software Management
+                - Network Management
+                - SELinux
+                - Logical Volume Management (LVM)
+                - Filesystems
+                - ISCSI
+                - NFS Client
+                - Samba Client
+                - Firewall
+                - Process Management
+                - Temel Kavramların Gözden Geçirilmesi
+
+                BASH Scripting
+                - UNIX'in tarihi ve evrimi
+                - Dosya sistemi, montaj cihazları ve düğümler
+                - Süreçler, iş parçacıkları, planlama ve sinyaller
+                - Temel UNIX komutlarını kullanma
+                - Farklı UNIX kabuklarının karşılaştırılması
+                - İş için doğru kabuğu seçmek
+                - Kabuk Programlamayı Başlatma
+                - Kabuk komut dosyaları neden önemli bir araçtır?
+                - Bir tercüman seçmek için shebang hattını kullanmak
+                - Kabuk değişkenlerini bildirme ve bunlarla çalışma
+                - Test ve aritmetik için yerleşik operatörler
+                - İfade komutunu kullanarak ifadeleri değerlendirme
+                - Değişkenleri if ve case ile test etme
+                - For, while ve Until döngüleri oluşturma ve kontrol etme
+                - Kabuk komut dosyalarınızda hata ayıklama
+                - Düzenli ifadeler
+                - Normal İfade Motoru nasıl çalışır?
+                - Temel ve genişletilmiş düzenli ifadeler arasındaki fark
+                - Kabuk komut dosyalarında normal ifadeleri kullanma seçenekleri
+
+                Docker Kubernetes
+                - Kubernetes’e Giriş
+                - Kubernetes Mimarisi
+                - Kubernetes Kurulumu
+                - Kubernetes CLI
+                - Konteyner Çalışma Zamanı
+                - Kubernetes İş Yükleri
+                - POD
+                - Kontrol Yaşam Döngüsü
+                - ReplicaSet
+                - Deployment
+                - StatefulSet
+                - DaemonSet
+                - Job
+                - CronJob
+                - Ağ Trafiği
+                - Servisler
+                - ClusterIP
+                - NodePort
+                - Load Balancer
+                - External Name
+                - Headless
+                - EndPoint
+                - Servis Proxy
+
+                Cloud DevOps
+                - Introduction Azure DevOps
+                - Azure Repos
+                - Azure Pipelines
+                - Azure Artifacts
+                - Azure Test Plans
+                - Source Control Management (SCM)
+                - Version controlling mechanism using Azure Repos
+                - Branching & merging strategy
+                - Various branching & merging strategies and their scenarios
+                - Best Practices
+                - Continuous Integration (CI)
+                - Continuous Integration using Azure Pipelines
+                - Pipeline creation
+                - Environments
+                - Tasks
+                - Workflows
+                - Best Practices
+                - Continuous Deployment (CD)
+                - Deployment Pipelines using Azure Pipelines
+                - Automated workflows for Deployments
+                - Integration with Artifact management`;
+
+            var element = document.createElement("a");
+            element.setAttribute(
+                "href",
+                "data:text/plain;charset=utf-8," + encodeURIComponent(content)
+            );
+            element.setAttribute("download", filename);
+
+            element.style.display = "none";
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+        }
+
+        
+        var slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}    
+            slides[slideIndex-1].style.display = "block";  
+            setTimeout(showSlides, 2000); 
+        }
+</script>
+
+    </script>
+</body>
+</html>
