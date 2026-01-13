@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sınıf Listesi</title>
+    <style>
+    
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 0;
+            text-align: center;
+            z-index: 999;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(to right,
+                #ff0000, #ff4000, #ff8000, #ffbf00, #ffff00,
+                #bfff00, #80ff00, #40ff00, #00ff00, #00ff40,
+                #00ff80, #00ffbf, #00ffff, #00bfff, #0080ff,
+                #0040ff, #0000ff, #4000ff, #8000ff, #bf00ff,
+                #ff00ff, #ff00bf, #ff0080, #ff0040, #ff0000,
+                #ff4000, #ff8000, #ffbf00, #ffff00, #bfff00,
+                #80ff00, #40ff00, #00ff00, #00ff40, #00ff80,
+                #00ffbf, #00ffff, #00bfff, #0080ff, #0040ff,
+                #0000ff, #4000ff, #8000ff, #bf00ff, #ff00ff,
+                #ff00bf, #ff0080, #ff0040, #ff0000);
+            background-size: 200% auto;
+            animation: gradient 10s linear infinite;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-around;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            transition: background-color 0.3s, color 0.3s, transform 0.2s, box-shadow 0.3s;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .navigation a:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: width 0.3s, height 0.3s, top 0.3s, left 0.3s;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+        }
+
+        .navigation a:hover:before {
+            width: 0;
+            height: 0;
+            top: 50%;
+            left: 50%;
+        }
+
+        .navigation a:hover {
+            background-color: #1565c0;
+            color: #ffd600;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+
+
+        
+        body {
+            background-color: black;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+        .container {
+            max-width: 350px;
+            margin: 80px auto; 
+            padding: 4px;
+            background-color: rgb(20, 20, 20);
+            border-radius: 8px;
+            box-shadow: 0 0 400px #2d0d79;
+        }
+        h1 {
+            text-align: center;
+            font-family: 'Times New Roman', Serif;
+            color: #9e74ff
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 6px 4px; 
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        th {
+            background-color: #444;
+            color: purple;
+            text-transform: uppercase;
+        }
+        .slideshow-container {
+            max-width: 300px;
+            position: absolute; 
+            bottom: 1%; 
+            left: 55%; 
+            transform: translateX(-50%); 
+            margin: auto; 
+        }
+        .mySlides {
+            display: none;
+        }
+        .fade {
+            animation: fade 2.5s;
+        }
+        @keyframes fade {
+            from {opacity: .2} 
+            to {opacity: 1}
+        }
+        td:first-child {
+            color: white;
+            animation: slideFromRight 1s ease forwards;
+            font-family: 'Times New Roman', sans-serif;
+        }
+        td:nth-child(2) {
+            color: #d440a3;
+            white-space: nowrap;
+            animation: slideFromBottom 1s ease forwards;
+            font-family: 'Times New Roman', sans-serif;
+            font-weight: bold;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, orangered, green);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .gradient-text2 {
+            background: linear-gradient(to right, green, orangered);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+     
+        @keyframes slideFromRight {
+            0% {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+
+        @keyframes slideFromLeft {
+            0% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+td:nth-child(2) {
+    color: #d440a3;
+    white-space: nowrap;
+    animation: slideFromLeft 4s ease forwards;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navigation">
+            <a href="index.html">Anasayfa</a>
+            <a href="siniflistesi.html">Sınıf Listesi</a>
+            <a href="dersmufredati.html">Ders Müfredatı</a>
+            <a href="blogs.html">Blogs</a>
+        </nav>
+    </header>
+    <div class="slideshow-container">
+
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/png-shadow-512/AWS.png" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/svg/Azure.svg" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/svg/Google-Cloud.svg" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/svg/Jenkins.svg" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/svg/Docker.svg" style="width:45%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/svg/Kubernetes.svg" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/svg/HashiCorp-Terraform.svg" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/png-shadow-512/Ansible.png" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/svg/Git.svg" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/svg/GitLab.svg" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/png-shadow-512/GitHub.png" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/svg/MongoDB.svg" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/png-shadow-512/Powershell.png" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/png-shadow-512/Bash.png" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/png-shadow-512/Linux.png" style="width:35%">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://icon.icepanel.io/Technology/svg/Windows-11.svg" style="width:35%">
+        </div>
+        
+    </div>
+</div>
+    <div class="container">
+        <h1>Sınıf Listesi</h1>
+        <table>
+            <tbody>
+                <tr>
+                    <td>Arzu</td>
+                    <td><b>ÖZKAN</b></td>
+                </tr>
+                <tr>
+                    <td><a href="https://tr.linkedin.com/in/bayramozkan" target="_blank" style="color: inherit; text-decoration: inherit;">Bayram</a></td>
+                    <td><a href="https://tr.linkedin.com/in/bayramozkan" target="_blank" style="color: inherit; text-decoration: inherit;">ÖZKAN</a></td>
+                </tr>
+                <tr>
+                    <td>Caner</td>
+                    <td><b>BAYRAKTAR</b></td>
+                </tr>
+                <tr>
+                    <td>Esat</td>
+                    <td><b>SATAN</b></td>
+                </tr>
+                <tr>
+                    <td><a href="https://tr.linkedin.com/in/hilalokuyucu" target="_blank" style="color: inherit; text-decoration: inherit;">Hilal</a></td>
+                    <td><a href="https://tr.linkedin.com/in/hilalokuyucu" target="_blank" style="color: inherit; text-decoration: inherit;">OKUYUCU</a></td>
+                </tr>
+                <tr>
+                    <td>Melis</td>
+                    <td><b>POLATCAN</b></td>
+                </tr>
+                <tr>
+                    <td>Melike</td>
+                    <td><b>YALÇIN</b></td>
+                </tr>
+                <tr>
+                    <td><a href="https://tr.linkedin.com/in/mert-kilicaslan" target="_blank" class="gradient-text" style="text-decoration: none;"><b>Mert</b></a></td>
+                    <td><a href="https://tr.linkedin.com/in/mert-kilicaslan" target="_blank" class="gradient-text2" style="text-decoration: none;"><b>KILIÇASLAN</b></a></td>
+                </tr>
+                <tr>
+                    <td>Muhammed</td>
+                    <td><b>BAZ</b></td>
+                </tr>
+                <tr>
+                    <td><a href="https://tr.linkedin.com/in/muhammed-kayak" target="_blank" style="color: inherit; text-decoration: inherit;">Muhammed</a></td>
+                    <td><a href="https://tr.linkedin.com/in/muhammed-kayak" target="_blank" style="color: inherit; text-decoration: inherit;">KAYAK</a></td>
+                </tr>
+                <tr>
+                    <td>Muhammet Furkan</td>
+                    <td><b>GÜNAYDIN</b></td>
+                </tr>
+                <tr>
+                    <td>Murat</td>
+                    <td><b>KILIÇ</b></td>
+                </tr>
+                <tr>
+                    <td>Seher</td>
+                    <td><b>BIÇAKCI</b></td>
+                </tr>
+                <tr>
+                    <td><a href="https://tr.linkedin.com/in/sema-d-996627231" target="_blank" style="color: inherit; text-decoration: inherit;">Sema</a></td>
+                    <td><a href="https://tr.linkedin.com/in/sema-d-996627231" target="_blank" style="color: inherit; text-decoration: inherit;">DÜZ</a></td>
+                </tr>
+                <tr>
+                    <td><a href="https://tr.linkedin.com/in/semra-düz-33a8571b4" target="_blank" style="color: inherit; text-decoration: inherit;">Semra</a></td>
+                    <td><a href="https://tr.linkedin.com/in/semra-düz-33a8571b4" target="_blank" style="color: inherit; text-decoration: inherit;">DÜZ</a></td>
+                </tr>
+                <tr>
+                    <td>Sena Nur</td>
+                    <td><b>ALTUNER</b></td>
+                </tr>
+                <tr>
+                    <td>Seval</td>
+                    <td><b>KAHRAMAN</b></td>
+                </tr>
+                <tr>
+                    <td>Şeyma</td>
+                    <td><b>ALKAYIM</b></td>
+                </tr>
+                <tr>
+                    <td>Şeyma</td>
+                    <td><b>ERDEM</b></td>
+                </tr>
+                <tr>
+                    <td>Tuğberk</td>
+                    <td><b>GÖK</b></td>
+                </tr>
+                <tr>
+                    <td>Vedat</td>
+                    <td><b>AYDOĞDU</b></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+<script>
+    var slideIndex = 0;
+    showSlides();
+
+    function showSlides() {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";  
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) {slideIndex = 1}    
+        slides[slideIndex-1].style.display = "block";  
+        setTimeout(showSlides, 2000); 
+    }
+</script>
+
+</html>
