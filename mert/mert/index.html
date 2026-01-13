@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anasayfa</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; 
+            background-color: rgb(0, 0, 0);
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 0;
+            text-align: center;
+            z-index: 999;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(to right,
+                #ff0000, #ff4000, #ff8000, #ffbf00, #ffff00,
+                #bfff00, #80ff00, #40ff00, #00ff00, #00ff40,
+                #00ff80, #00ffbf, #00ffff, #00bfff, #0080ff,
+                #0040ff, #0000ff, #4000ff, #8000ff, #bf00ff,
+                #ff00ff, #ff00bf, #ff0080, #ff0040, #ff0000,
+                #ff4000, #ff8000, #ffbf00, #ffff00, #bfff00,
+                #80ff00, #40ff00, #00ff00, #00ff40, #00ff80,
+                #00ffbf, #00ffff, #00bfff, #0080ff, #0040ff,
+                #0000ff, #4000ff, #8000ff, #bf00ff, #ff00ff,
+                #ff00bf, #ff0080, #ff0040, #ff0000);
+            background-size: 200% auto;
+            animation: gradient 10s linear infinite;
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-around;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            transition: background-color 0.3s, color 0.3s, transform 0.2s, box-shadow 0.3s;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+        .navigation a:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: width 0.3s, height 0.3s, top 0.3s, left 0.3s;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+        }
+        .navigation a:hover:before {
+            width: 0;
+            height: 0;
+            top: 50%;
+            left: 50%;
+        }
+        .navigation a:hover {
+            background-color: #1565c0;
+            color: #ffd600;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            margin-top: 70px; 
+        }
+        .transition-text {
+            font-size: 5em; 
+            margin-bottom: 0px; 
+            background: linear-gradient(to right, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff, #ff00ff, #ff0080, #ff0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textEffect 4s ease-in-out infinite alternate, breathe 4s ease-in-out infinite;
+        }
+        .falling-text {
+            position: relative;
+            animation: fall 2s ease-out both;
+            margin-bottom: 15px;
+
+        }
+        @keyframes textEffect {
+            0% {
+                filter: hue-rotate(0deg);
+            }
+            100% {
+                filter: hue-rotate(360deg);
+            }
+        }
+        @keyframes breathe {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        @keyframes fall {
+            0% {
+                opacity: 0;
+                transform: translateY(-100%);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Slideshow */
+        .slideshow-container {
+            max-width: 300px;
+            position: absolute; 
+            bottom: -115%; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            margin: auto; 
+        }
+        .mySlides {
+            display: none;
+        }
+        .fade {
+            animation: fade 2.5s;
+        }
+        @keyframes fade {
+            from {opacity: .2} 
+            to {opacity: 1}
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navigation">
+            <a href="index.html"> Anasayfa</a>
+            <a href="siniflistesi.html"> Sınıf Listesi</a>
+            <a href="dersmufredati.html"> Ders Müfredatı</a>
+            <a href="blogs.html"> Blogs</a>
+        </nav>
+    </header>
+    <div class="container">
+        <h1 class="transition-text" id="academyCB">AcademyCB</h1>
+        <h2 class="falling-text">DevOps Sınıfına</h2>
+        <h3 class="falling-text">Hoş Geldiniz</h3>
+
+        <!-- Slideshow -->
+        <div class="slideshow-container">
+
+            <div class="mySlides fade">
+                <img src="https://icon.icepanel.io/Technology/png-shadow-512/AWS.png" style="width:35%">
+            </div>
+            <div class="mySlides fade">
+                <img src="https://icon.icepanel.io/Technology/svg/Azure.svg" style="width:35%">
+            </div>
+            <div class="mySlides fade">
+                <img src="https://icon.icepanel.io/Technology/svg/Google-Cloud.svg" style="width:35%">
+            </div>
+            <div class="mySlides fade">
+                <img src="https://icon.icepanel.io/Technology/svg/Jenkins.svg" style="width:35%">
+            </div>
+            <div class="mySlides fade">
+                <img src="https://icon.icepanel.io/Technology/svg/Docker.svg" style="width:45%">
+            </div>
+            <div class="mySlides fade">
+                <img src="https://icon.icepanel.io/Technology/svg/Kubernetes.svg" style="width:35%">
+            </div>
+            <div class="mySlides fade">
+                <img src="https://icon.icepanel.io/Technology/svg/HashiCorp-Terraform.svg" style="width:35%">
+            </div>
+            <div class="mySlides fade">
+                <img src="https://icon.icepanel.io/Technology/png-shadow-512/Ansible.png" style="width:35%">
+            </div>
+            <div class="mySlides fade">
+                <img src="https://icon.icepanel.io/Technology/svg/Git.svg" style="width:35%">
+            </div>
+            <div class="mySlides fade">
+                <img src="https://icon.icepanel.io/Technology/svg/GitLab.svg" style="width:35%">
+            </div>
+            <div class="mySlides fade">
+                <img src="https://icon.icepanel.io/Technology/png-shadow-512/GitHub.png" style="width:35%">
+            </div>
+            <div class="mySlides fade">
+                <img src="https://icon.icepanel.io/Technology/svg/MongoDB.svg" style="width:35%">
+            </div>
+            <div class="mySlides fade">
+                <img src="https://icon.icepanel.io/Technology/png-shadow-512/Powershell.png" style="width:35%">
+            </div>
+            <div class="mySlides fade">
+                <img src="https://icon.icepanel.io/Technology/png-shadow-512/Bash.png" style="width:35%">
+            </div>
+            <div class="mySlides fade">
+                <img src="https://icon.icepanel.io/Technology/png-shadow-512/Linux.png" style="width:35%">
+            </div>
+            <div class="mySlides fade">
+                <img src="https://icon.icepanel.io/Technology/svg/Windows-11.svg" style="width:35%">
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    <script>
+        const text = document.getElementById('academyCB');
+        const letters = text.textContent.split('');
+        text.innerHTML = ''; 
+
+        letters.forEach((letter, i) => {
+            const span = document.createElement('span');
+            span.textContent = letter;
+            span.style.animation = `rainbowText 1s linear infinite ${i * 0.1}s`; 
+            text.appendChild(span);
+        });
+
+        var slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}    
+            slides[slideIndex-1].style.display = "block";  
+            setTimeout(showSlides, 2000); 
+        }
+    </script>
+</body>
+</html>
